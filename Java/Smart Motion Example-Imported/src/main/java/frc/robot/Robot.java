@@ -53,14 +53,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
   private static final int deviceID = 5;
   private CANSparkMax m_motor;
+  private CANSparkMax n_motor;
   private CANPIDController m_pidController;
   private CANEncoder m_encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM, maxVel, minVel, maxAcc, allowedErr;
+  public boolean smartBool = false;
+  public boolean smartBool1 = false;
 
   @Override
   public void robotInit() {
     // initialize motor
     m_motor = new CANSparkMax(deviceID, MotorType.kBrushless);
+    n_motor = new CANSparkMax(4, MotorType.kBrushless);
 
     /**
      * The RestoreFactoryDefaults method can be used to reset the configuration parameters
@@ -68,6 +72,8 @@ public class Robot extends TimedRobot {
      * parameters will not persist between power cycles
      */
     m_motor.restoreFactoryDefaults();
+    //n_motor.restoreFactoryDefaults();
+    n_motor.follow(m_motor);
 
     // initialze PID controller and encoder objects
     m_pidController = m_motor.getPIDController();
@@ -180,7 +186,14 @@ public class Robot extends TimedRobot {
       m_pidController.setReference(setPoint, ControlType.kSmartMotion);
       processVariable = m_encoder.getPosition();
     }
-    
+    if(m_encoder.getPosition() / 4 > setPoint / 4 && smartBool == false ){
+      m_pidController.setSmartMotionMaxVelocity(maxVel / 2, 0);
+      smartBool = true;
+    }
+    if(m_encoder.getPosition() / 2 > setPoint / 2 && smartBool1 == false ){
+      m_pidController.setSmartMotionMaxVelocity(maxVel, 0);
+      smartBool1 = true;
+    }
     SmartDashboard.putNumber("SetPoint", setPoint);
     SmartDashboard.putNumber("Process Variable", processVariable);
     SmartDashboard.putNumber("Output", m_motor.getAppliedOutput());

@@ -90,8 +90,8 @@
             ],
             "content": {
               "_type": "Graph",
-              "_source0": "network_table:///SmartDashboard/SetPoint",
-              "_source1": "network_table:///SmartDashboard/Process Variable",
+              "_source0": "network_table:///SmartDashboard/Process Variable",
+              "_source1": "network_table:///SmartDashboard/SetPoint",
               "_title": "Process Variable",
               "Graph/Visible time": 30.0,
               "Y-axis/Automatic bounds": true,
@@ -160,8 +160,8 @@
   ],
   "windowGeometry": {
     "x": -7.199999809265137,
-    "y": -7.199999809265137,
+    "y": 0.0,
     "width": 1544.0,
-    "height": 842.0
+    "height": 842.4000244140625
   }
 }
